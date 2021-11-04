@@ -27,6 +27,8 @@ public class App {
         usuario = new Usuario("Casas", "Perez", "Carlos","1020304050","DNI");
         usuarios.agregar(usuario);
         
+        usuarios.getUsuario("20304587").recargar(100.0f);
+        
         System.out.println(usuarios);
         
         /*

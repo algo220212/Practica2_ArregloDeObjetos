@@ -16,6 +16,9 @@ public class Usuario {
     private String nombres;
     private String documento;
     private String tipoDocumento;
+    private Tarjeta tarjetas[];
+    private int indice;
+    private Tarjeta pordefecto;
 
     public Usuario(String paterno, String materno, String nombres, String documento, String tipoDocumento) {
         this.paterno = paterno;
@@ -23,6 +26,8 @@ public class Usuario {
         this.nombres = nombres;
         this.documento = documento;
         this.tipoDocumento = tipoDocumento;
+        this.indice = 0;
+        this.tarjetas = new Tarjeta[5];
     }
 
     public Usuario(String paterno, String nombres, String documento, String tipoDocumento) {
@@ -30,6 +35,8 @@ public class Usuario {
         this.nombres = nombres;
         this.documento = documento;
         this.tipoDocumento = tipoDocumento;
+        this.indice = 0;
+        this.tarjetas = new Tarjeta[5];
     }
 
     public Usuario(String materno, String nombres, String documento) {
@@ -37,8 +44,47 @@ public class Usuario {
         this.nombres = nombres;
         this.documento = documento;
         this.tipoDocumento = "DNI";
+        this.indice = 0;
+        this.tarjetas = new Tarjeta[5];
     }
 
+    public boolean registrarTarjeta(Tarjeta tarjeta){
+        boolean result = false;
+        if(!estaLleno()){
+            this.tarjetas[this.indice]=  tarjeta;
+            this.pordefecto = tarjeta;
+            result = true;
+        }
+        return result;
+    }
+    
+    public boolean registrarTarjeta(Tarjeta tarjeta, boolean pordefecto ){
+        boolean result = false;
+        if(!estaLleno()){
+            this.tarjetas[this.indice]=  tarjeta;
+            result = true;
+            if (pordefecto){
+                this.pordefecto = tarjeta;
+            }
+        }
+        return result;
+    }
+    
+    public boolean recargar(float monto){
+        boolean result = false;
+        if(this.pordefecto != null ){
+            this.pordefecto.recargar(monto);
+            result = true;
+        }else{
+            if(!estaVacio()){
+                this.tarjetas[0].recargar(monto);
+                result = true;
+            }
+        }
+        return result;
+    }
+    
+       
     public String getPaterno() {
         return paterno;
     }
@@ -78,6 +124,22 @@ public class Usuario {
                 nombres + "\t" + 
                 tipoDocumento + "\t" +  
                 documento;
+    }
+
+    private boolean estaLleno() {
+        if(this.indice == this.tarjetas.length){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    private boolean estaVacio() {
+        if(this.indice == 0 ) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     
